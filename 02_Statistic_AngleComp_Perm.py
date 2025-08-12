@@ -1,4 +1,4 @@
-# -------- COPY-PASTE READY: same structure, no neuromaps, works on fsaverage5 --------
+# -------- Imports --------
 import os, sys
 import numpy as np
 import nibabel as nib
