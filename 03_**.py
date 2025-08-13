@@ -1,12 +1,12 @@
 """
 This script turns your per-vertex non-negative regression outputs (`rgba`: betas + R²) into analysis-ready angles and 
 visualizations on fsaverage5, then exports scalar maps to GIFTI. It first converts the three betas (R,G,B) into an HSV hue (degrees)
-with a proper wrap to **\[0,360)**, then builds an **HSV** map per vertex where hue encodes sensory angle, saturation is ranked R²
-(magnitude, with a zero-division guard), and value is fixed for consistent display; it also returns **θ in radians** (0..2π) for circular
-stats and the ranked-R² vector. For groups, it takes a stack `[S×4×V]`, yields individual θ/R², computes the **circular mean** angle across subjects
-and a **group magnitude** by ranking mean R², and produces group RGB colors. A vector-composition helper compares two angle maps across conditions
-using the **signed circular difference** and **1 − resultant vector length** for effect size. Finally, a robust saver writes per-vertex 
-LH/RH GIFTI files with a **dynamic hemisphere split** (fsaverage5: 10,242 verts per hemi by default), avoiding hardcoded fs\_LR sizes.
+with a proper wrap to [0,360), then builds an HSV map per vertex where hue encodes sensory angle, saturation is ranked R²
+(magnitude, with a zero-division guard), and value is fixed for consistent display; it also returns θ in radians (0..2π) for circular
+stats and the ranked-R² vector. For groups, it takes a stack `[S×4×V]`, yields individual θ/R², computes the circular mean angle across subjects
+and a group magnitude by ranking mean R², and produces group RGB colors. A vector-composition helper compares two angle maps across conditions
+using the signed circular difference and 1 − resultant vector length for effect size. Finally, a robust saver writes per-vertex 
+LH/RH GIFTI files with a dynamic hemisphere split (fsaverage5: 10,242 verts per hemi by default), avoiding hardcoded fs\_LR sizes.
 
 """
 # hsv_and_gifti_fs5.py
