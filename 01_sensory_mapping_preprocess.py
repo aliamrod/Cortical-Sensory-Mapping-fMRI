@@ -30,8 +30,7 @@ import pingouin as pg
 #   - .../sub-XX.R.func.gii
 # General assumption: vertex order is LH (10,242) and RH (10,242). 
 """
-lh_annot = "/home/amahama/PROJECTS/1_sensory/data/HCP-MMP1.fsaverage/lh.HCP-MMP1.fsaverage5.annot"
-rh_annot = "/home/amahama/PROJECTS/1_sensory/data/HCP-MMP1.fsaverage/rh.HCP-MMP1.fsaverage5.annot"
+
 
 # -------------------- Utilities --------------------
 def _b2s(x):
@@ -249,5 +248,3 @@ def v_hsv_model_rgba_indiv(rgba):
 # 3) Group level (stack subjects):
 # rgba_all = np.stack([rgba_subj1, rgba_subj2, ...], axis=0)  # [S x 4 x V]
 # th_ind, rd_ind, th_grp, rd_grp, rgb_grp = v_hsv_model_rgba_indiv(rgba_all)
-
-
