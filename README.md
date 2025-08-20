@@ -5,13 +5,11 @@ Pipeline for mapping cortical sensory integration from fMRI using the HCP-MMP at
 
 **A. Script 1**
 
-Objective: (1) Build V1/S1/A1 masks on fsaverage5 from HCP-MMP1.annot files.
+The script implements sensory-integration mapping on **fsaverage5** space (10,242 vertices per hemisphere; 20,484 total). "Seeds" are V1, S1 (areas 3a/3b/1/2), and A1 from HCP-MMP1 annotations. For each subject, it:
+(1) builds seed masks from `.annot`, 
+(2) extracts seed mean time series from LH/RH functional GIFTIs resampled to fsaverage5,
+(3) performs non-negative regression (beta ≥ 0) per vertex using the three seed series as predictors, 
+(4) converts betas to HSV/RGB color encodings, 
+(5) aggregates to group level with circular stats for hue.
 
-(2) For each subject, time series within V1, S1, and A1 is averaged -> used these three traces as predictors. 
-
-(3) Regress every vertex's time series on those preddictors with non-negative coefficients. 
-
-(4) Betas -> R (V1), G (S1), B (A1); R² → A (alpha).
-
-(5) Convert per-vertex RGB betas → HSV hue/“strength” for visualization.
 
