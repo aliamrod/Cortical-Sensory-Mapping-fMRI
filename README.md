@@ -17,4 +17,16 @@ The script implements sensory-integration mapping on **fsaverage5** space (10,24
 
 (5) aggregates to group level with circular stats for hue.
 
+Imports 
+
+```python
+numpy
+scipy
+nibabel
+sklearn.linear_model.LinearRegression(positive=True)
+matplotlib.colors # for HSV <-> RGB mapping
+tqdm # progress bars
+pingouin # circular means (group-level hue aggregation)
+
+```
 
