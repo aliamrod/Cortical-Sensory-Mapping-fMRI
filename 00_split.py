@@ -79,8 +79,8 @@ print_paths(au_df, "autism")
 print_paths(hc_df, "control")
 
 # ---- Exports: CSVs with metadata ----
-au_df.to_csv("autism_split.csv", index=False)
-hc_df.to_csv("control_split.csv", index=False)
+au_df.to_csv("./data/autism_split.csv", index=False)
+hc_df.to_csv("./data/control_split.csv", index=False)
 
 # ---- Exports: plain path lists ----
 def write_list(paths, fname):
@@ -88,10 +88,10 @@ def write_list(paths, fname):
         for p in paths:
             if p: f.write(p + "\n")
 
-write_list(au_df["lh_path"].tolist(), "autism_lh_paths.txt")
-write_list(au_df["rh_path"].tolist(), "autism_rh_paths.txt")
-write_list(hc_df["lh_path"].tolist(), "control_lh_paths.txt")
-write_list(hc_df["rh_path"].tolist(), "control_rh_paths.txt")
+write_list(au_df["lh_path"].tolist(), "./data/autism_lh_paths.txt")
+write_list(au_df["rh_path"].tolist(), "./data/autism_rh_paths.txt")
+write_list(hc_df["lh_path"].tolist(), "./data/control_lh_paths.txt")
+write_list(hc_df["rh_path"].tolist(), "./data/control_rh_paths.txt")
 
 # ---- Summary ----
 print("\nFile existence summary:")
