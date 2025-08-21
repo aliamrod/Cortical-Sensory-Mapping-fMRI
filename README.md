@@ -3,7 +3,7 @@ Pipeline for mapping cortical sensory integration from fMRI using the HCP-MMP at
 
 
 
-**A. Script 1**
+**A. 00_split.py**
 
 The script implements sensory-integration mapping on **fsaverage5** space (10,242 vertices per hemisphere; 20,484 total). "Seeds" are V1, S1 (areas 3a/3b/1/2), and A1 from HCP-MMP1 annotations. For each subject, it:
 
@@ -29,4 +29,12 @@ tqdm # progress bars
 pingouin # circular means (group-level hue aggregation)
 
 ```
+
+**B. 01_sensory_mapping_preprocess.py**
+
+
+
+
+**C. 02_statistic_anglecomp_perm.py**
+
 
