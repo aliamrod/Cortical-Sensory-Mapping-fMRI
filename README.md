@@ -32,7 +32,13 @@ pingouin # circular means (group-level hue aggregation)
 
 **B. 01_sensory_mapping_preprocess.py**
 
+To run, verify deps are installed
 
+
+```bash
+python3 -m pip install --upgrade pip
+python3 -m pip install numpy scipy scikit-learn nibabel pingouin tqdm matplotlib 
+```
 
 
 **C. 02_statistic_anglecomp_perm.py**
