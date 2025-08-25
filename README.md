@@ -66,7 +66,25 @@ python3 -m pip install --upgrade pip
 python3 -m pip install numpy scipy scikit-learn nibabel pingouin tqdm matplotlib 
 ```
 
+Verify required inputs exist
 
+```bash
+ls -l data/autism_split.csv data/control_split.csv
+ls -l data/HCP-MMP1.fsaverage/lh.HCP-MMP1.fsaverage5.annot
+ls -l data/HCP-MMP1.fsaverage/rh.HCP-MMP1.fsaverage5.annot
+```
+
+
+Run treatment cohort:
+
+```bash
+python3 01_sensory_mapping_preprocess.py \
+  --csv ./data/control_split.csv \
+  --group control \
+  --lh-annot ./data/HCP-MMP1.fsaverage/lh.HCP-MMP1.fsaverage5.annot \
+  --rh-annot ./data/HCP-MMP1.fsaverage/rh.HCP-MMP1.fsaverage5.annot \
+  --out ./out_fs5_control
+```
 **C. 02_statistic_anglecomp_perm.py**
 
 
