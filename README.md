@@ -32,6 +32,32 @@ pingouin # circular means (group-level hue aggregation)
 
 **B. 01_sensory_mapping_preprocess.py**
 
+`01_sensory_mapping_preprocess.py` runs the actual mapping on fsaverage5 and constructs primary ROI masks (V1, S1, A1) from HCP MMP1 annotations, loads LH/RH time series, performs non-negative regression (V1/S1/A1 seeds each vertex), converts to HSV/angle representation, and aggregates to group level outputs. The pipeline expects LH and RH surfaces to be fsaverage5 (10,242 vertices per hemisphere) and concatenated as [LH, RH] 20,484 vertices total. 
+
+As a recapitulation, 
+
+1. Construct primry masks from HCP-MMP1 fs5 annotations:
+   * V1, S1 (3a/3b/1/2), A1 labels are looked up by name in lh/rh .annot tables.
+   * Boolean masks are built per hemisphere and concatenated (LH || RH).
+
+2. Load cohort CSV
+   * Requires columns: `subject_id`, `lh_path`, `rh_path`.
+   * Optional --n-max allows smoke testing on a few subjects.
+
+3. For each subjec:
+   * Load LH/RH time series -> [10242 x T] per hemi; concatenate to [20484 x T].
+   * Compute seed means for V1/S1/A1 using masks.
+   * Fit non-negative linear regression (sklearn positive = True) from seed time series (X) to each vertex time series (Y).
+   * Derive per-vertex R^2 and stack into RGBA: [4 x 20484].
+   * Save per-subject RGBA as .npy inside out_root/subjects/.
+
+4. Group aggregation:
+   * Stack subjects -> [S x 4 x 20484].
+   * Convert each subject's RGB betas to hue/angle; rank-normalize R^2 to get saturation.
+   * Compute circular mean of angles across subjects and aggregate rank R^2.
+   * Save group-level arrays (theta, r2rank, rgb).
+
+
 To run, verify deps are installed
 
 
