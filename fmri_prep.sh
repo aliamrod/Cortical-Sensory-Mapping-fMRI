@@ -16,3 +16,6 @@ ls -lh "$DEST"
 cd /home/amahama/PROJECTS/1_sensory/data/manifests
 
 head -n 10 fMRI_All_master_file_V7_2025-09-08.csv | uid -t -s,
+
+
+# 5. fMRI Prep Preprocessing
