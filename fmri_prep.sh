@@ -13,4 +13,6 @@ cp -v /home/yyang/yang/map_master_fmri/fMRI_All_master_file_V6.csv \
 ls -lh "$DEST"
 
 # 4. Inspect contents of *.csv
-column -s, -t < /home/amahama/PROJECTS/1_sensory/data/manifests
+cd /home/amahama/PROJECTS/1_sensory/data/manifests
+
+head -n 10 fMRI_All_master_file_V7_2025-09-08.csv | uid -t -s,
