@@ -39,6 +39,16 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 # Now, we re-run fMRIPrep for only subjects that lack surfaces and ask it to output fsaverage5 surface time-series (*space-fsaverage5_hemi-*.func.gii).
 # Those provide accurate, subject-specific vertex data (in order to regress each vertex's time series onto the 3 seed time series (V1/S1/A1); that requires surface time series (fsaverage, .func.gii) and surface atlas (Glasser on fsaverage5 .annot).
 
+# Extract site name(s); if multi-site, will run BIDS check multiple times. BIDS specification does not explicity cover studies with data coming from multiple sites 
+# or multiple centers. 
+# 1) Treat each site/center as a separate dataset. 
+# 2) Combining sites/centers into one dataset: (2a): Collate sites at subject level--> identify which site each subjects comes from you can add a `site` column in the `participants.tsv` file indicating the source site. This solution allows
+# ... one to analyze all subjects together in one dataset. One caveat is that subjects from all sites will have to have unique labels. To enforce that and improve readability you can use
+# ... a subject label prefix identifying the site (i.e., sub-NUY001, sub-NUY002, sub-NUY003, etc.). 
+# OR
+# (2b): Use different sessions for different sites. In case of studies such as "Traveling Human Phantom" it is possible to incorporate site within session label (i.e., sub-human1/ses-NUY, sub-human1/ses-MIT, sub-phantom1/ses-NUY, sub-phantom1/ses-MIT, etc.). 
+
+
 ################################## fMRIPrep SBATCH ##################################
 #!/bin/bash
 #SBATCH --job-name=job_array_test
