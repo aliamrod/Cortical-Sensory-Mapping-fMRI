@@ -39,22 +39,21 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 # Now, we re-run fMRIPrep for only subjects that lack surfaces and ask it to output fsaverage5 surface time-series (*space-fsaverage5_hemi-*.func.gii).
 # Those provide accurate, subject-specific vertex data (in order to regress each vertex's time series onto the 3 seed time series (V1/S1/A1); that requires surface time series (fsaverage, .func.gii) and surface atlas (Glasser on fsaverage5 .annot).
 
+################################## fMRIPrep SBATCH ##################################
+#!/bin/bash
+#SBATCH --job-name=job_array_test
+#SBATCH --partition=all         # gpu, cpu or all
+#SBATCH --ntasks-per-node=1     # depending on your task
+#SBATCH --cpus-per-task=1       # depending on your task
+#SBATCH --mem=15G               # Adjust memory to fit your needs
+#SBATCH --array=0-190%80        # Adjust for the number!
+## with $ wc -l <input_1.txt> you can count the lines in your .txt
+#SBATCH --output=%j_%x_%a.out
+#SBATCH --error=%j_%x_%a.err
+#SBATCH --time=9999:00:00
+#*************!!!!
 
-# fMRI PREP
-# BIDS CHECK
-module avail fMRIprep
-module avail freesurfer
-module avail singularity 
-
+# Load modules
 module load fMRIprep
 module load freesurfer
 module load singularity
-
-export OMP_NUM_THREADS=1
-export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-
-
-# Create project layout
-mkdir -p ~/PROJECTS/1_sensory/{logs,work,derivatives,code}
-
-
