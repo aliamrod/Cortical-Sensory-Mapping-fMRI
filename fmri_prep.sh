@@ -48,6 +48,10 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 # OR
 # (2b): Use different sessions for different sites. In case of studies such as "Traveling Human Phantom" it is possible to incorporate site within session label (i.e., sub-human1/ses-NUY, sub-human1/ses-MIT, sub-phantom1/ses-NUY, sub-phantom1/ses-MIT, etc.). 
 
+# Inspect sites
+head -n 1 fMRI_master_file_MNI_pass.csv | column -t -s,
+#   subject_id  session_id  run  age  sex  site  scanner_id  diagnosis  path_fmri  path_fmriprep  preprocessing_failed_fmriprep_stable  uid  uid2
+cut -d, -f6 fMRI_master_file_MNI_pass.csv | sort | uniq
 
 ################################## fMRIPrep SBATCH ##################################
 #!/bin/bash
