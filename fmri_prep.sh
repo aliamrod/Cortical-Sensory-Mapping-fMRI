@@ -51,7 +51,15 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 # Inspect sites
 head -n 1 fMRI_master_file_MNI_pass.csv | column -t -s,
 #   subject_id  session_id  run  age  sex  site  scanner_id  diagnosis  path_fmri  path_fmriprep  preprocessing_failed_fmriprep_stable  uid  uid2
-cut -d, -f6 fMRI_master_file_MNI_pass.csv | sort | uniq
+cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq
+
+cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq | wc -l
+# 234
+
+for site in $(cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq); do
+    grep "$site" fMRI_master_file_MNI_pass.csv > "${site}_subjects.csv"
+done
+
 
 ################################## fMRIPrep SBATCH ##################################
 #!/bin/bash
