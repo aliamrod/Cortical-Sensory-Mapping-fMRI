@@ -62,20 +62,21 @@ done
 
 
 ################################## fMRIPrep SBATCH ##################################
-#!/bin/bash
-#SBATCH --job-name=job_array_test
-#SBATCH --partition=all         # gpu, cpu or all
-#SBATCH --ntasks-per-node=1     # depending on your task
-#SBATCH --cpus-per-task=1       # depending on your task
-#SBATCH --mem=15G               # Adjust memory to fit your needs
-#SBATCH --array=0-190%80        # Adjust for the number!
-## with $ wc -l <input_1.txt> you can count the lines in your .txt
-#SBATCH --output=%j_%x_%a.out
-#SBATCH --error=%j_%x_%a.err
-#SBATCH --time=9999:00:00
-#*************!!!!
-
-# Load modules
 module load fMRIprep
 module load freesurfer
 module load singularity
+
+cd ~/PROJECTS/1_sensory/data/manifests
+
+# Master CSV + known column indices
+CSV=fMRI_master_file_MNI_pass.csv
+COL_SITE=7
+COL_SUBJECT=2
+COL_PATH_FMRI=10
+
+# fMRIPrep / FS locations
+FMRIPREP_IMG="/mnt/lmod/software/singularity/images/fmriprep:23.2.1.simg"
+FS_LICENSE="$FREESURFER_HOME/license.txt"
+FS_SUBJECTS_DIR=""
+
+module load singularity 2>dev/null || true
