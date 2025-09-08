@@ -35,7 +35,7 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 # We require surface time series on a consistent mesh to do vertex-wise regression (i.e., we use these '.func.gii' time series). 
 
 # Excluse the failed subjects first, then proceed to convert the successful runs from MNI Space -> fsaverage5. 
-head -n 1 fMRI_All_master_file_V7_2025-09-08.csv > fMRI_All_master_file_MNIonly.csv
+head -n 1 fMRI_All_master_file_V7_2025-09-08.csv > fMRI_All_master_file_pass_MNI.csv
 grep -Ev "Failed"|"failed" fMRI_All_master_file_V7_2025_09-08.csv >> fMRI_All_master_file_pass_MNI.csv
 
 
