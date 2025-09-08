@@ -8,9 +8,9 @@ DEST=/home/amahama/PROJECTS/1_sensory/data/manifests
 mkdir -p "$DEST"
 
 # 3. Copy here with last date of update in the name (verbose)
-STAMP=${date +%F}
 cp -v /home/yyang/yang/map_master_fmri/fMRI_All_master_file_V6.csv \
-    "$DEST/fMRI_All_master_file_V7_${STAMP}.csv"
+      "$DEST/fMRI_All_master_file_V7_$(date +%F).csv"
+ls -lh "$DEST"
 
-# 4. Verify file has been copied and print out
-ls -lh "$DEST"v/null | head -n 20
+# 4. Inspect contents of *.csv
+column -s, -t < /home/amahama/PROJECTS/1_sensory/data/manifests
