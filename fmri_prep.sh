@@ -61,22 +61,5 @@ for site in $(cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq); do
 done
 
 
-################################## fMRIPrep SBATCH ##################################
-module load fMRIprep
-module load freesurfer
-module load singularity
-
-cd ~/PROJECTS/1_sensory/data/manifests
-
-# Master CSV + known column indices
-CSV=fMRI_master_file_MNI_pass.csv
-COL_SITE=7
-COL_SUBJECT=2
-COL_PATH_FMRI=10
-
-# fMRIPrep / FS locations
-FMRIPREP_IMG="/mnt/lmod/software/singularity/images/fmriprep:23.2.1.simg"
-FS_LICENSE="$FREESURFER_HOME/license.txt"
-FS_SUBJECTS_DIR=""
-
-module load singularity 2>dev/null || true
+################################## Create BIDS Structure ##################################
+MASTER="fMRI_"
