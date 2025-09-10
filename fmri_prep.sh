@@ -14,6 +14,18 @@ ls -lh "$DEST"
 cd /home/amahama/PROJECTS/1_sensory/data/manifests
 
 head -n 10 fMRI_All_master_file_V7_2025-09-08.csv | column -t -s,
+head -n 1 fMRI_All_master_file_V7_2025-09-08.csv | tr, ',' '\n' | nl
+
+# Print unique *string values for fMRI pass column (pass/fail)
+csvcut -c preprocessing_failed_fmriprep_stable fMRI_All_master_file_V6.csv \
+| tail -n +2 | sed 's/\r$//'
+
+
+csvcut -c preprocessing_failed_fmriprep_stable fMRI_All_master_file_V6.csv \
+| tail -n +2 | sed 's/\r$//' | awk '{print tolower($0)}' | sed 's/^[ \t]*//;s/[ \t]*$//' \
+| sed 's/^$/<empty>/' | sort | uniq -c | sort -nr
+# 46999 ok
+# 1543 failed
 
 
 # 5. fMRI Prep Preprocessing
@@ -52,6 +64,7 @@ grep -c "MNI" fMRI_All_master_file_V7_2025-09-08.csv
 head -n 1 fMRI_master_file_MNI_pass.csv | column -t -s,
 #   subject_id  session_id  run  age  sex  site  scanner_id  diagnosis  path_fmri  path_fmriprep  preprocessing_failed_fmriprep_stable  uid  uid2
 cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq
+
 
 cut -d, -f7 fMRI_master_file_MNI_pass.csv | sort | uniq | wc -l
 # 234
