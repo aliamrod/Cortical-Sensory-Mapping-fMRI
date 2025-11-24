@@ -9,6 +9,8 @@
 
 
 # Imports
+# Load libraries required: (1) numpy, scipy.stats, nnls -> math; (2) nibabel, read_annot -> read fsaverage5 GIFTI/.annot, (3) LinearRegression(positive=True) -> fast non-negative regression, 
+# ... (4) matplotlib.colors -> HSV <--> RGB, (5) pingouin -> circular mean.
 import os
 import numpy as np
 import scipy.stats as ss
