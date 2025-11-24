@@ -235,6 +235,64 @@ def v_hsv_model_rgba_indiv(rgba):
     rgb_group = color.hsv_to_rgb(hsv)
     return th_indiv, rd_indiv, th_group, rd_group, rgb_group
 
+
+if __name__ == "__main__":
+    import pandas as pd
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", type=str, required=True,
+                        help="CSV with columns: subject_id, lh_func, rh_func, diagnosis, age, sex, site")
+    parser.add_argument("--lh_annot", type=str, required=True,
+                        help="Path to lh.HCP-MMP1.fsaverage5.annot")
+    parser.add_argument("--rh_annot", type=str, required=True,
+                        help="Path to rh.HCP-MMP1.fsaverage5.annot")
+    parser.add_argument("--outdir", type=str, required=True,
+                        help="Directory to save rgba/HSV outputs")
+    args = parser.parse_args()
+
+    os.makedirs(args.outdir, exist_ok=True)
+
+    print("Building V1/S1/A1 masks on fsaverage5...")
+    masks = build_primary_masks_fs5(args.lh_annot, args.rh_annot)
+
+    print("Loading manifest...")
+    df = pd.read_csv(args.manifest)
+    required_cols = ["subject_id", "lh_func", "rh_func"]
+    for c in required_cols:
+        if c not in df.columns:
+            raise ValueError(f"Manifest missing required column: {c}")
+
+    rgba_list = []
+    subj_ids = []
+
+    for _, row in tqdm(df.iterrows(), total=len(df), desc="Subjects"):
+        lh_path = row["lh_func"]
+        rh_path = row["rh_func"]
+        sid = row["subject_id"]
+
+        ts = load_subject_ts_fs5(lh_path, rh_path)          # [V x T]
+        rgba = v_ts_nnls_vertex_fs5(ts, masks)              # [4 x V]
+
+        rgba_list.append(rgba)
+        subj_ids.append(sid)
+
+    rgba_all = np.stack(rgba_list, axis=0)                  # [S x 4 x V]
+    np.save(os.path.join(args.outdir, "rgba_all.npy"), rgba_all)
+    np.save(os.path.join(args.outdir, "subject_ids.npy"), np.array(subj_ids))
+
+    # Group HSV
+    print("Computing HSV (angles + magnitude) per subject and group...")
+    th_ind, rd_ind, th_grp, rd_grp, rgb_grp = v_hsv_model_rgba_indiv(rgba_all)
+    np.save(os.path.join(args.outdir, "theta_indiv.npy"), th_ind)
+    np.save(os.path.join(args.outdir, "rd_indiv.npy"), rd_ind)
+    np.save(os.path.join(args.outdir, "theta_group.npy"), th_grp)
+    np.save(os.path.join(args.outdir, "rd_group.npy"), rd_grp)
+    np.save(os.path.join(args.outdir, "rgb_group.npy"), rgb_grp)
+
+    print("Done. Saved rgba_all + HSV outputs to", args.outdir)
+
+
 # -------------------- USAGE OVERVIEW --------------------
 # 1) Build masks once (fsaverage5 .annot files):
 # lh_annot = "$SUBJECTS_DIR/fsaverage5/label/lh.HCP-MMP1.annot"
